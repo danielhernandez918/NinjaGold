@@ -2,8 +2,9 @@ package com.daniel.ninjagold.controllers;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
-//
+
 import javax.servlet.http.HttpSession;
 
 //import org.springframework.format.annotation.DateTimeFormat;
@@ -37,6 +38,8 @@ public class mainController {
 	@PostMapping("/Gold/process") 
     public String process( @RequestParam("location") String location, HttpSession session) {
 		Date date = new Date();
+	    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+	    String strDate= formatter.format(date);  
 		Random rand = new Random(); //instance of random class
 		Integer currGold = (Integer) session.getAttribute("gold");
 		@SuppressWarnings("unchecked")
@@ -46,7 +49,7 @@ public class mainController {
 			int random = rand.nextInt(upper)+10;
 			currGold+= random;
 			session.setAttribute("gold",currGold);
-			goldLog.add(String.format("You entered a farm and earned %s gold (%s)", random, date));
+			goldLog.add(String.format("You entered a farm and earned %s gold (%s)", random, strDate));
 
 		}
 		else if(location.equals("cave")) {
@@ -54,7 +57,7 @@ public class mainController {
 			int random = rand.nextInt(upper)+5;
 			currGold+= random;
 			session.setAttribute("gold",currGold);
-			goldLog.add(String.format("You entered a cave and earned %s gold (%s)", random, date));
+			goldLog.add(String.format("You entered a cave and earned %s gold (%s)", random, strDate));
 
 		}
 		else if(location.equals("house")) {
@@ -62,7 +65,7 @@ public class mainController {
 			int random = rand.nextInt(upper)+2;
 			currGold+= random;
 			session.setAttribute("gold",currGold);
-			goldLog.add(String.format("You entered a house and earned %s gold (%s)", random, date));
+			goldLog.add(String.format("You entered a house and earned %s gold (%s)", random, strDate));
 
 		}
 		else if(location.equals("quest")) {
@@ -73,13 +76,13 @@ public class mainController {
 			if(addRemove == 0) {
 				currGold+= random;
 				session.setAttribute("gold",currGold);
-				goldLog.add(String.format("You completed a quest and earned %s gold (%s)", random, date));
+				goldLog.add(String.format("You completed a quest and earned %s gold (%s)", random, strDate));
 
 			}
 			else {
 				currGold-= random;
 				session.setAttribute("gold",currGold);
-				goldLog.add(String.format("You failed a quest and lost %s gold (%s)", random, date));
+				goldLog.add(String.format("You failed a quest and lost %s gold (%s)", random, strDate));
 
 			}
 		}
